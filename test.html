@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CKEditor Test</title>
+</head>
+<body>
+  <h1>CKEditor Test</h1>
+  <div id="editor">Hello, CKEditor!</div>
+
+  <script src="./build/ckeditor.js"></script>
+  
+
+  <script>
+    (window.ClassicEditor.default || window.ClassicEditor).create(document.querySelector('#editor'))
+      .then(editor => {
+        console.log('Editor initialized:', editor);
+      })
+      .catch(error => {
+        console.error('Error initializing editor:', error);
+      });
+    // ClassicEditor.default.create(document.querySelector('#editor'))
+    //   .then(editor => {
+    //     console.log('Editor initialized:', editor);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error initializing editor:', error);
+    //   });
+  </script>
+</body>
+</html>
