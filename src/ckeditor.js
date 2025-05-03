@@ -10,9 +10,9 @@ import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
  import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
  import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
  import InsertRowPlugin from './plugins/insertrowplugin.js';
+ import DivSupportPlugin from './plugins/DivSupportPlugin.js';
  import Widget from '@ckeditor/ckeditor5-widget/src/widget';
-
-
+ import SimpleBlockStylePlugin from './plugins/SimpleBlockStylePlugin';
 class ClassicEditor extends ClassicEditorBase {}
 
 ClassicEditor.builtinPlugins = [
@@ -23,15 +23,40 @@ ClassicEditor.builtinPlugins = [
   PasteFromOffice,
   GeneralHtmlSupport,
   SourceEditing,
+  DivSupportPlugin,
   InsertRowPlugin,
-  Widget,
+
+  SimpleBlockStylePlugin
 ];
 
 ClassicEditor.defaultConfig = {
   toolbar: {
-    items: ['bold', 'italic', '|', 'insertRowCols', '|', 'undo', 'redo',
-      'sourceEditing',
-      // 'insertRowCols', // кнопка вставки строки
+    items: [
+        'blockStyle',
+        'bold',
+        'italic',
+        'undo',
+        'redo',
+        'sourceEditing',
+    ]
+  },
+  style: {
+    definitions: [
+        {
+            name: 'Заметка',
+            element: 'div',
+            classes: [ 'note' ]
+        },
+        {
+            name: 'Подсказка',
+            element: 'div',
+            classes: [ 'tip' ]
+        },
+        {
+            name: 'Блок с кодом',
+            element: 'div',
+            classes: [ 'code-block' ]
+        }
     ]
   },
   htmlSupport: {
