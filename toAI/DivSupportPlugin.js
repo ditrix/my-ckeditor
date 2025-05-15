@@ -11,7 +11,6 @@ export default class DivSupport extends Plugin {
         editor.model.schema.register('div', {
             allowWhere: '$block',
             allowContentOf: '$block',
-            isObject: true,
             allowAttributes: ['class']
         });
 
@@ -41,18 +40,17 @@ export default class DivSupport extends Plugin {
             }
         });
   // 4. Editing Downcast (модель -> view в редакторе)
-  editor.conversion.for('editingDowncast').elementToElement({
+editor.conversion.for('editingDowncast').elementToElement({
     model: 'div',
     view: (modelElement, { writer }) => {
-        const div = writer.createContainerElement('div', {
+        const div = writer.createEditableElement('div', {
             class: modelElement.getAttribute('class') || ' ',
             style: 'border: 1px dashed #007acc; padding: 5px;' // Стили для выделения блока
         });
 
-        return toWidget(div, writer); // Преобразование в виджет
+        return toWidgetEditable(div, writer); // Преобразование в редактируемый виджет
     }
 });
-
 // 5. Обработка вставки с сохранением class
 editor.plugins.get('ClipboardPipeline').on('inputTransformation', 
     (evt, data) => {

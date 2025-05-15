@@ -1,18 +1,19 @@
-import ClassicEditorBase from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
+// ckeditor.js (основной файл сборки CKEditor 5 с поддержкой InsertRow и DivWrapper)
 
+import ClassicEditorBase from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
+import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
+import GeneralHtmlSupport from '@ckeditor/ckeditor5-html-support/src/generalhtmlsupport';
+import Widget from '@ckeditor/ckeditor5-widget/src/widget';
 
- import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
- import HtmlSupport from '@ckeditor/ckeditor5-html-support';
- import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
- import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
- import InsertRowPlugin from './plugins/insertrowplugin.js';
- import DivSupportPlugin from './plugins/DivSupportPlugin.js';
- import Widget from '@ckeditor/ckeditor5-widget/src/widget';
- import SimpleBlockStylePlugin from './plugins/SimpleBlockStylePlugin';
+// Кастомные плагины
+import InsertRowPlugin from './plugins/InsertRowPlugin';
+import DivClassPlugin from './plugins/DivClassPlugin';
+
 class ClassicEditor extends ClassicEditorBase {}
 
 ClassicEditor.builtinPlugins = [
@@ -21,51 +22,28 @@ ClassicEditor.builtinPlugins = [
   Bold,
   Italic,
   PasteFromOffice,
-  GeneralHtmlSupport,
   SourceEditing,
-  DivSupportPlugin,
+  GeneralHtmlSupport,
+  Widget,
   InsertRowPlugin,
-
-  SimpleBlockStylePlugin
+  DivClassPlugin
 ];
 
 ClassicEditor.defaultConfig = {
   toolbar: {
     items: [
-        'blockStyle',
-        'bold',
-        'italic',
-        'undo',
-        'redo',
-        'sourceEditing',
-    ]
-  },
-  style: {
-    definitions: [
-        {
-            name: 'Заметка',
-            element: 'div',
-            classes: [ 'note' ]
-        },
-        {
-            name: 'Подсказка',
-            element: 'div',
-            classes: [ 'tip' ]
-        },
-        {
-            name: 'Блок с кодом',
-            element: 'div',
-            classes: [ 'code-block' ]
-        }
+      'bold', 'italic', '|',
+      'insertRow', 'divClass', '|',
+      'undo', 'redo', 'sourceEditing'
     ]
   },
   htmlSupport: {
     allow: [
       {
-        name: /.*/, // любые теги
-        attributes: true, // любые атрибуты
-        classes: true,    // любые классы
-        styles: true      // любые стили
+        name: /.*/,
+        attributes: true,
+        classes: true,
+        styles: true
       }
     ]
   },
@@ -73,5 +51,5 @@ ClassicEditor.defaultConfig = {
 };
 
 if (typeof window !== 'undefined') {
-    window.ClassicEditor = ClassicEditor;
-  }
+  window.ClassicEditor = ClassicEditor;
+}

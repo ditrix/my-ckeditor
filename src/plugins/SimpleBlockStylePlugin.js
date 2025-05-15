@@ -1,28 +1,50 @@
-// import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-// import Command from '@ckeditor/ckeditor5-core/src/command';
-// import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
-// import Model from '@ckeditor/ckeditor5-ui/src/model';
-// import createDropdown from '@ckeditor/ckeditor5-ui/src/dropdown/utils/createDropdown';
-// import addListToDropdown from '@ckeditor/ckeditor5-ui/src/dropdown/utils/addlisttodropdown';
-// import Collection from '@ckeditor/ckeditor5-utils/src/collection';
+
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
 import Command from '@ckeditor/ckeditor5-core/src/command';
 import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
 import Model from '@ckeditor/ckeditor5-ui/src/model';
 import { createDropdown, addListToDropdown } from '@ckeditor/ckeditor5-ui';
 import Collection from '@ckeditor/ckeditor5-utils/src/collection';
+import divClassIcon from '../icons/divClassIcon.svg'; // Импорт иконки
 
 //  import { toWidget, toWidgetEditable } from '@ckeditor/ckeditor5-widget';
 export default class SimpleBlockStylePlugin extends Plugin {
     init() {
         const editor = this.editor;
         const styles = [
-            { name: 'Заметка', class: 'note' },
-            { name: 'Подсказка', class: 'tip' },
-            { name: 'Блок с кодом', class: 'code-block' }
+            { name: 'row', class: 'row' },
+            { name: 'col 2', class: 'col-md-6' },
+            { name: 'col 3', class: 'col-md-4' }
+            
         ];
 
         editor.commands.add('applySimpleBlockStyle', new ApplySimpleBlockStyleCommand(editor));
+
+
+        // Добавление кнопки divClass
+        editor.ui.componentFactory.add('divClass', locale => {
+            const buttonView = new ButtonView(locale);
+
+            buttonView.set({
+                label: 'Div Class',
+                icon: divClassIcon, // Установка иконки
+                tooltip: true
+            });
+
+            buttonView.on('execute', () => {
+                const selection = editor.model.document.selection;
+                const selectedElement = selection.getSelectedElement();
+
+                if (selectedElement && selectedElement.name === 'div') {
+                    const newClass = prompt('Enter class for the div:', selectedElement.getAttribute('class') || '');
+                    editor.model.change(writer => {
+                        writer.setAttribute('class', newClass, selectedElement);
+                    });
+                }
+            });
+
+            return buttonView;
+        });
 
         editor.ui.componentFactory.add('blockStyle', locale => {
             const dropdownView = createDropdown(locale);
