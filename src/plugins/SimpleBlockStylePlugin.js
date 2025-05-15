@@ -13,8 +13,8 @@ export default class SimpleBlockStylePlugin extends Plugin {
         const editor = this.editor;
         const styles = [
             { name: 'row', class: 'row' },
-            { name: 'col 2', class: 'col-md-6' },
-            { name: 'col 3', class: 'col-md-4' }
+            { name: 'col 2', class: 'col' },
+            { name: 'col 3', class: 'col-3' } 
             
         ];
 
